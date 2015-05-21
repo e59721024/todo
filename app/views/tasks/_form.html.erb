@@ -1,0 +1,15 @@
+<%= form_for(@task) do |f| %>
+  <div class="field">
+    <%= f.label :name, '名前' %>
+    <%= f.text_field :name %><br />
+  </div>
+  <div class="field">
+    <%= f.label :deadline, '締切日' %>
+    <%= f.datetime_select :deadline %><br />
+  </div>
+  <div>
+    <%= f.label :priority, '優先度' %>
+    <%= f.select :priority, [1,2,3] %><br />
+  </div>
+  <%= f.submit %>
+<% end %>

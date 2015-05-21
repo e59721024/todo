@@ -1,7 +1,14 @@
+# coding: utf-8
 Rails.application.routes.draw do
   root :to => "top#index"
   get "about" => "top#about", :as => :about
   resources :users
+  resources :tasks do
+    collection do
+      get :download
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

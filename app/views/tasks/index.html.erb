@@ -1,0 +1,26 @@
+<h1>Tasks#index</h1>
+<%= form_tag tasks_url, :method => :get do %>
+  <%= text_field_tag("name", @name) %>
+  <%= submit_tag("検索") %>
+<% end %> 
+<br />
+<div>
+  <%= link_to "新規作成", new_task_url %><br />
+  <%= link_to "CSVダウンロード", download_tasks_url %><br />
+</div>
+<table>
+  <tr>
+    <th>優先度</th><th>タスク名</th><th>締め切り</th><th></th>
+  </tr>
+  <% @task.each do |task| %> 
+    <tr>
+      <td><%= priority_name(task.priority) %></td>
+      <td><%= task.name %></td>
+      <td><%= task.deadline.try(:strftime, "%Y-%m-%d %H:%M:%S") %></td>
+      <td>
+        <%= link_to "編集", edit_task_url(task) %>
+        <%= link_to "削除", task_url(task), :method => 'delete', :confirm => "削除してもよろしいですか" %>
+      </td>
+    </tr>
+  <% end %> 
+</table>

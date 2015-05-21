@@ -1,3 +1,4 @@
+# coding: utf-8
 source 'https://rubygems.org'
 
 gem 'puma'
@@ -33,8 +34,20 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'rubocop', require: false
+  gem 'ruby-lint'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry-rails'
+  gem 'pry-stack_explorer'
+
+  gem 'better_errors'
+  gem 'binding_of_caller'
+
+  # better sql results on pry
+  gem 'hirb'
+  gem 'hirb-unicode'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
