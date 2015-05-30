@@ -1,9 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  email: MyString
+  name: john
+  email: test@test.com
   birthday: 2015-05-20
+  password: <%= Digest::SHA1.hexdigest("abc") %>
 
 two:
   name: MyString

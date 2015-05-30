@@ -1,7 +1,7 @@
 # coding: utf-8
 source 'https://rubygems.org'
 
-gem 'puma'
+# gem 'puma'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record
@@ -40,6 +40,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'pry-stack_explorer'
 
   gem 'better_errors'

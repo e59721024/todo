@@ -1,0 +1,10 @@
+<h1>Session#new</h1>
+<% if @error %> 
+  <%= @error %> <br />
+<% end %> 
+<%= form_tag session_url do %>
+  <%= text_field_tag :email, @email %><br />
+  <%= text_field_tag :password, "" %><br />
+  <%= submit_tag "login" %><br />
+<% end %> 
+<%= link_to "sign_in", new_user_url %>

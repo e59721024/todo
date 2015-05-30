@@ -1,13 +1,18 @@
 # coding: utf-8
 Rails.application.routes.draw do
-  root :to => "top#index"
-  get "about" => "top#about", :as => :about
+  # root 'main#index', as: :top
+  root to: 'top#index'
+  get 'about' => 'top#about', :as => :about
+  get 'session/new'
   resources :users
   resources :tasks do
     collection do
       get :download
     end
   end
+  get 'logout' => 'session#destroy'
+  get 'login' => 'session#new'
+  resource :session, only: 'create', controller: 'session'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

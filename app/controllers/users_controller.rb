@@ -1,11 +1,16 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  skip_before_action :login_required, :only => [:new, :create]
+  skip_before_action :find_login_user, :only => [:new, :create]
+  before_action :set_user, :only => [:show, :edit, :update, :destroy]
+  before_action :admin_required, :only => [:index, :destroy]
+  before_action :user_allow_show_own_data, :only => [:show, :edit, :update]
+  # before_action :user_allow_show_own_data, only: [:show, :edit]
 
   # GET /users
   # GET /users.json
   def index
     @users = User.all
-    respond_to do |format| 
+    respond_to do |format|
       format.html
       format.xml { render :xml => @users }
     end
@@ -73,6 +78,13 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :birthday)
+      params.require(:user).permit(:name, :email, :birthday, :password)
+    end
+
+    def user_allow_show_own_data
+      binding.pry
+      unless @login_user.try(:adm?) or @login_user.id == @user.id
+        redirect_to user_path(@login_user)
+      end
     end
 end
