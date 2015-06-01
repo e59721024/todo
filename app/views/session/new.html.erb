@@ -2,6 +2,7 @@
 <% if @error %> 
   <%= @error %> <br />
 <% end %> 
+<p id="notice"><%= notice %></p>
 <%= form_tag session_url do %>
   <%= text_field_tag :email, @email %><br />
   <%= text_field_tag :password, "" %><br />

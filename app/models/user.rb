@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :tasks
   validates :name,
             presence: true,
             uniqueness: { case_sensitive: false }
@@ -9,8 +10,6 @@ class User < ActiveRecord::Base
 
   def self.authenticate(email, password)
     where(email: email, password: Digest::SHA1.hexdigest(password)).first
-    # binding.pry
-    # where(email: email, password: password).first
   end
 
   private

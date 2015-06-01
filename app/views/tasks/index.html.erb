@@ -1,12 +1,12 @@
 <h1>Tasks#index</h1>
-<%= form_tag tasks_url, :method => :get do %>
+<%= form_tag user_tasks_url(@user), :method => :get do %>
   <%= text_field_tag("name", @name) %>
   <%= submit_tag("検索") %>
 <% end %> 
 <br />
 <div>
-  <%= link_to "新規作成", new_task_url %><br />
-  <%= link_to "CSVダウンロード", download_tasks_url %><br />
+  <%= link_to "新規作成", new_user_task_url(@user) %><br />
+  <%= link_to "CSVダウンロード", download_user_tasks_url(@user) %><br />
 </div>
 <table>
   <tr>
@@ -18,8 +18,8 @@
       <td><%= task.name %></td>
       <td><%= task.deadline.try(:strftime, "%Y-%m-%d %H:%M:%S") %></td>
       <td>
-        <%= link_to "編集", edit_task_url(task) %>
-        <%= link_to "削除", task_url(task), :method => 'delete', :confirm => "削除してもよろしいですか" %>
+        <%= link_to "編集", edit_user_task_url(@user, task) %>
+        <%= link_to "削除", user_task_url(@user, task), :method => 'delete', :confirm => "削除してもよろしいですか" %>
       </td>
     </tr>
   <% end %> 

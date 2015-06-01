@@ -4,10 +4,11 @@ Rails.application.routes.draw do
   root to: 'top#index'
   get 'about' => 'top#about', :as => :about
   get 'session/new'
-  resources :users
-  resources :tasks do
-    collection do
-      get :download
+  resources :users do
+    resources :tasks do
+      collection do
+        get :download
+      end
     end
   end
   get 'logout' => 'session#destroy'

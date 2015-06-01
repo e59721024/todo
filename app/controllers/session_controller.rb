@@ -12,12 +12,11 @@ class SessionController < ApplicationController
     #   session[:user_id] = @user.id
     #   flash[:notice] = 'login success!'
     #   redirect_to tasks_url
-    if !@user
+    session[:user_id] = @user.try(:id)
+    if @user.nil?
       @error = 'login failed!'
       render action: :new
-      binding.pry
     elsif @user.try(:adm?)
-      session[:user_id] = @user.id
       flash[:notice] = 'login success!'
       redirect_to users_path
     else

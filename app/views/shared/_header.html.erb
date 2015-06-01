@@ -1,6 +1,13 @@
 <div id="head">
   <%= link_to(image_tag("logo.png", :size => "116x46", :alt => "ToDo"), :root) %> 
   <%= link_to "Home", :root %> |
-  <%= link_to "ユーザ一覧", :users %> |
-  <%= link_to "このサイトについて", :about %>
+  <%= link_to "このサイトについて", :about %> |
+
+  <% if @login_user %> 
+    <%= link_to "タスク一覧", user_tasks_path(@login_user) %> |
+    <% if @login_user.adm? %>
+      <%= link_to "ユーザ一覧", :users %> |
+    <% end %> 
+    <%= link_to "ログアウト", :logout %>
+  <% end %> 
 </div>
