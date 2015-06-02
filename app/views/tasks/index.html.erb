@@ -10,13 +10,18 @@
 </div>
 <table>
   <tr>
-    <th>優先度</th><th>タスク名</th><th>締め切り</th><th></th>
+    <th>優先度</th><th>タスク名</th><th>締め切り</th><th>タグ</th>
   </tr>
-  <% @task.each do |task| %> 
+  <% @tasks.each do |task| %> 
     <tr>
       <td><%= priority_name(task.priority) %></td>
-      <td><%= task.name %></td>
+      <td><%= link_to(task.name, user_task_path(@user, task)) %></td>
       <td><%= task.deadline.try(:strftime, "%Y-%m-%d %H:%M:%S") %></td>
+      <!-- <td><%#= task.tags.map{|tag| tag.name}.join(", ") %></td> -->
+      <td>
+        <%= task.tags.map{|tag| link_to(tag.name, user_tasks_path(@user, tag: tag.name))}.join(", ").html_safe -%>
+      </td>
+
       <td>
         <%= link_to "編集", edit_user_task_url(@user, task) %>
         <%= link_to "削除", user_task_url(@user, task), :method => 'delete', :confirm => "削除してもよろしいですか" %>

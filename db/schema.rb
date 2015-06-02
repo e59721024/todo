@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150530160800) do
+ActiveRecord::Schema.define(version: 20150601065342) do
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "task_tags", force: :cascade do |t|
+    t.integer  "task_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "task_tags", ["tag_id"], name: "index_task_tags_on_tag_id"
+  add_index "task_tags", ["task_id"], name: "index_task_tags_on_task_id"
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name"

@@ -1,5 +1,9 @@
 # coding: utf-8
 Rails.application.routes.draw do
+  get 'tags/create'
+
+  get 'tags/destroy'
+
   # root 'main#index', as: :top
   root to: 'top#index'
   get 'about' => 'top#about', :as => :about
@@ -8,6 +12,10 @@ Rails.application.routes.draw do
     resources :tasks do
       collection do
         get :download
+      end
+      controller :tags do
+        post 'create' => 'tags#create', as: 'tags_create'
+        post 'destroy' => 'tags#destroy', as: 'tags_destroy'
       end
     end
   end

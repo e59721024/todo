@@ -1,0 +1,47 @@
+<h1><%= @task.name %></h1>
+<div>
+  <%= link_to "新規作成", new_user_task_url(@user) %><br />
+</div>
+<table>
+  <tr>
+    <th>優先度</th>
+    <td><%= priority_name(@task.priority) %></td>
+  </tr>
+  <tr>
+    <th>タスク名</th>
+    <td><%= @task.name %></td>
+  </tr>
+  <tr>
+    <th>締め切り</th>
+    <td><%= @task.deadline.strftime("%Y-%m-%d %H:%M:%S") %></td>
+  </tr>
+  <tr>
+    <th>タグ</th>
+    <td>
+      <table>
+        <% @task.tags.each do |tag| %> 
+          <tr>
+            <td><%= form_tag(user_task_tags_destroy_path(@user, @task)) do %>
+                <%= hidden_field_tag :name, tag.name %>
+                <%= tag.name %>
+                <%= submit_tag '削除' %>
+              <% end %> 
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td>
+            <%= form_tag(user_task_tags_create_path(@user, @task)) do %>
+              <%= text_field_tag :name %>
+              <%= submit_tag "追加" %>
+            <% end %> 
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<%= link_to "編集", edit_user_task_url(@user, @task) %> |
+<%= link_to "削除", user_task_url(@user, @task), method: 'delete', confirm: '削除してもよろしいですか' %> |
+<%= link_to "戻る", user_tasks_url(@user)%>
