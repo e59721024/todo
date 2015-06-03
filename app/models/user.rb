@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validates :password,
             presence: true,
             confirmation: true
-  before_create :digest_password
+  before_save :digest_password
 
   def self.authenticate(email, password)
     where(email: email, password: Digest::SHA1.hexdigest(password)).first

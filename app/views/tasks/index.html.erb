@@ -1,31 +1,42 @@
-<h1>Tasks#index</h1>
-<%= form_tag user_tasks_url(@user), :method => :get do %>
-  <%= text_field_tag("name", @name) %>
-  <%= submit_tag("検索") %>
-<% end %> 
-<br />
-<div>
-  <%= link_to "新規作成", new_user_task_url(@user) %><br />
-  <%= link_to "CSVダウンロード", download_user_tasks_url(@user) %><br />
+<%- model_class = Task -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<table>
-  <tr>
-    <th>優先度</th><th>タスク名</th><th>締め切り</th><th>タグ</th>
-  </tr>
-  <% @tasks.each do |task| %> 
+<table class="table table-striped">
+  <thead>
     <tr>
-      <td><%= priority_name(task.priority) %></td>
-      <td><%= link_to(task.name, user_task_path(@user, task)) %></td>
-      <td><%= task.deadline.try(:strftime, "%Y-%m-%d %H:%M:%S") %></td>
-      <!-- <td><%#= task.tags.map{|tag| tag.name}.join(", ") %></td> -->
-      <td>
-        <%= task.tags.map{|tag| link_to(tag.name, user_tasks_path(@user, tag: tag.name))}.join(", ").html_safe -%>
-      </td>
-
-      <td>
-        <%= link_to "編集", edit_user_task_url(@user, task) %>
-        <%= link_to "削除", user_task_url(@user, task), :method => 'delete', :confirm => "削除してもよろしいですか" %>
-      </td>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:deadline) %></th>
+      <th><%= model_class.human_attribute_name(:priority) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%= model_class.human_attribute_name(:tag) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
-  <% end %> 
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= link_to(task.name, user_task_path(@user, task)) %></td>
+        <td><%= task.deadline %></td>
+        <td><%= priority_name(task.priority) %></td>
+        <td><%= task.created_at %></td>
+        <td><%= task.tags.all.map{|tag| link_to(tag.name, user_tasks_path(@user, tag: tag.name))}.join(", ").html_safe -%></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_user_task_path(@user, task), :class => 'btn btn-default btn-xs' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      user_task_path(@user, task),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-xs btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_user_task_path(@user),
+            :class => 'btn btn-primary' %>
+
+<%= link_to 'Download_List', download_user_tasks_path(@user), class: 'btn btn-success' %>

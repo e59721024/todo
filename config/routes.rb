@@ -1,13 +1,11 @@
 # coding: utf-8
 Rails.application.routes.draw do
   get 'tags/create'
-
   get 'tags/destroy'
 
-  # root 'main#index', as: :top
-  root to: 'top#index'
+  root 'top#index'
   get 'about' => 'top#about', :as => :about
-  get 'session/new'
+  get 'top/index'
   resources :users do
     resources :tasks do
       collection do

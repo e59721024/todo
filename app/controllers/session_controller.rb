@@ -8,20 +8,14 @@ class SessionController < ApplicationController
     @email = params[:email]
     @password = params[:password]
     @user = User.authenticate(@email, @password)
-    # if @user
-    #   session[:user_id] = @user.id
-    #   flash[:notice] = 'login success!'
-    #   redirect_to tasks_url
     session[:user_id] = @user.try(:id)
     if @user.nil?
-      @error = 'login failed!'
+      flash.now[:alert] = 'Login failed!'
       render action: :new
     elsif @user.try(:adm?)
-      flash[:notice] = 'login success!'
+      flash[:notice] = 'Login success!'
       redirect_to users_path
     else
-      # session[:user_id] = @user.id
-      # flash[:notice] = 'login success!'
       redirect_to user_path(@user)
     end
   end

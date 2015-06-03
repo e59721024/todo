@@ -1,11 +1,79 @@
-<h1>Session#new</h1>
-<% if @error %> 
-  <%= @error %> <br />
-<% end %> 
-<p id="notice"><%= notice %></p>
-<%= form_tag session_url do %>
-  <%= text_field_tag :email, @email %><br />
-  <%= text_field_tag :password, "" %><br />
-  <%= submit_tag "login" %><br />
-<% end %> 
-<%= link_to "sign_in", new_user_url %>
+<div class="container">
+  <div class="row">
+    <div class="span12">
+      <div class="" id="loginModal">
+        <div class="modal-header">
+          <h3>Have an Account?</h3>
+        </div>
+        <div class="modal-body">
+          <div class="well">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+              <li><a href="#create" data-toggle="tab">Create Account</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content" style='padding:20px 0 0 0'>
+              <div class="tab-pane active in" id="login">
+                <%= form_tag(session_url, class: 'form-horizontal') do %>
+                  <fieldset>
+                    <div class="form-group">
+                      <div class="col-sm-4">
+                        <%= text_field @email, :email, class: 'form-control', placeholder: 'Email' %>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-4">
+                        <%= password_field_tag :password, "", class: 'form-control', placeholder: 'Password' %>
+                      </div>
+                    </div>
+                    <div>
+                      <%= submit_tag 'Login', class: 'btn btn-success' %>
+                    </div>
+                  </fieldset>
+                <% end %>
+              </div>
+
+              <div class="tab-pane fade" id="create">
+                <%= form_for User.new, :html => {:class => "form-horizontal"} do |f| %>
+                  <div class="form-group">
+                    <%= f.label :name, '', class: 'control-label col-sm-1' %>
+                    <div class="col-sm-4">
+                      <%= f.text_field :name, class: 'form-control', placeholder: 'Enter Name' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label :Email, '', class: 'control-label col-sm-1' %>
+                    <div class="col-sm-4">
+                      <%= f.text_field :email, class: 'form-control', placeholder: 'Enter Email' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label :Birthday, '', class: 'control-label col-sm-1' %>
+                    <div class="col-sm-4">
+                      <%= f.text_field :birthday, class: 'form-control', placeholder: 'YYYY/MM/DD' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label :Password, '', class: 'control-label col-sm-1' %>
+                    <div class="col-sm-4">
+                      <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-4">
+                      <%= f.password_field :password_confirmation, class: 'form-control', placeholder: 'Password_confirmation' %>
+                    </div>
+                  </div>
+                  <div class="col-sm-1"></div>
+                  <div>
+                    <%= f.submit 'Create Account', class: 'btn btn-primary' %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

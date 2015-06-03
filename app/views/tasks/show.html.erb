@@ -1,47 +1,46 @@
-<h1><%= @task.name %></h1>
-<div>
-  <%= link_to "新規作成", new_user_task_url(@user) %><br />
+<%- model_class = Task -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
 </div>
-<table>
-  <tr>
-    <th>優先度</th>
-    <td><%= priority_name(@task.priority) %></td>
-  </tr>
-  <tr>
-    <th>タスク名</th>
-    <td><%= @task.name %></td>
-  </tr>
-  <tr>
-    <th>締め切り</th>
-    <td><%= @task.deadline.strftime("%Y-%m-%d %H:%M:%S") %></td>
-  </tr>
-  <tr>
-    <th>タグ</th>
-    <td>
-      <table>
-        <% @task.tags.each do |tag| %> 
-          <tr>
-            <td><%= form_tag(user_task_tags_destroy_path(@user, @task)) do %>
-                <%= hidden_field_tag :name, tag.name %>
-                <%= tag.name %>
-                <%= submit_tag '削除' %>
-              <% end %> 
-            </td>
-          </tr>
-        <% end %>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @task.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:deadline) %>:</strong></dt>
+  <dd><%= @task.deadline %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:priority) %>:</strong></dt>
+  <dd><%= priority_name(@task.priority) %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:tag) %>:</strong></dt>
+  <dd>
+    <table>
+      <% @task.tags.each do |tag| %>
         <tr>
-          <td>
-            <%= form_tag(user_task_tags_create_path(@user, @task)) do %>
-              <%= text_field_tag :name %>
-              <%= submit_tag "追加" %>
-            <% end %> 
+          <td><%= form_tag(user_task_tags_destroy_path(@user, @task)) do %>
+              <%= hidden_field_tag :name, tag.name %>
+              <%= link_to(tag.name, user_tasks_path(@user, tag: tag.name)) %>
+              <%= submit_tag '削除' %>
+            <% end %>
           </td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+      <% end %>
+      <tr>
+        <td>
+          <%= form_tag(user_task_tags_create_path(@user, @task)) do %>
+            <%= text_field_tag :name %>
+            <%= submit_tag "追加" %>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  </dd>
+</dl>
 
-<%= link_to "編集", edit_user_task_url(@user, @task) %> |
-<%= link_to "削除", user_task_url(@user, @task), method: 'delete', confirm: '削除してもよろしいですか' %> |
-<%= link_to "戻る", user_tasks_url(@user)%>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              user_tasks_path(@user), :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_user_task_path(@user, @task), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              user_task_path(@user, @task),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

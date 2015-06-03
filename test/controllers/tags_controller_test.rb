@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TagsControllerTest < ActionController::TestCase
   setup do
-    @user = Users(:one)
+    @user = users(:one)
     @task = @user.tasks.first
     @tag = Tag.create(name: 'existing')
     session[:user_id] = @user.id
@@ -42,7 +42,7 @@ class TagsControllerTest < ActionController::TestCase
       post :create, user_id: @user, task_id: @task.id, name: @tag.name
     end
     assert_response :redirect
-    assert_redirect user_task_path(@user, @task)
+    assert_redirected_to user_task_path(@user, @task)
   end
 
   test 'should not create blank-named Tag' do

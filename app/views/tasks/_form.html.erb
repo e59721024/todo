@@ -1,15 +1,52 @@
-<%= form_for([@user, @task]) do |f| %>
-  <div class="field">
-    <%= f.label :name, '名前' %>
-    <%= f.text_field :name %><br />
+<%= form_for [@user, @task], :html => { :class => "form-horizontal task" } do |f| %>
+  <div class="container">
+    <% if @task.errors.any? %>
+      <div id="error_expl" class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h3>
+        </div>
+        <div class="panel-body">
+          <ul>
+            <% @task.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="form-group">
+          <%= f.label :name, class: 'control-label' %>
+          <%= f.text_field :name, class: 'form-control', placeholder: 'Enter  the Task Name' %>
+          <%= error_span(@task[:name]) %>
+        </div>
+        <div class="form-group">
+          <%= f.label :deadline, class: 'control-label' %>
+          <%= f.text_field :deadline, class: 'form-control', placeholder: 'YYYY/MM/DD' %>
+          <%= error_span(@task[:deadline]) %>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Priority</label><br />
+          <label class="radio-inline">
+            <%= f.radio_button 'priority', 1 %>
+            Low
+          </label>
+          <label class="radio-inline">
+            <%= f.radio_button 'priority', 2 %>
+            Middle
+          </label>
+          <label class="radio-inline">
+            <%= f.radio_button 'priority', 3 %>
+            High
+          </label>
+        </div>
+        <%= error_span(@task[:priority]) %>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :deadline, '締切日' %>
-    <%= f.datetime_select :deadline %><br />
-  </div>
-  <div>
-    <%= f.label :priority, '優先度' %>
-    <%= f.select :priority, [1,2,3] %><br />
-  </div>
-  <%= f.submit %>
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+        user_tasks_path(@user), :class => 'btn btn-default' %>
 <% end %>

@@ -1,13 +1,31 @@
-<div id="head">
-  <%= link_to(image_tag("logo.png", :size => "116x46", :alt => "ToDo"), :root) %> 
-  <%= link_to "Home", :root %> |
-  <%= link_to "このサイトについて", :about %> |
-
-  <% if @login_user %> 
-    <%= link_to "タスク一覧", user_tasks_path(@login_user) %> |
-    <% if @login_user.adm? %>
-      <%= link_to "ユーザ一覧", :users %> |
-    <% end %> 
-    <%= link_to "ログアウト", :logout %>
-  <% end %> 
+<div id="head" class="navbar navbar-default navbar-static-top navbar-fixed-top">
+  <div class="container">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <%= link_to 'ToDo', :root, class: 'navbar-brand' %>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+      <% if @login_user %> 
+        <ul class="nav navbar-nav">
+          <li><%= link_to 'TaskList', user_tasks_path(@login_user) %></li>
+          <li>
+            <%= form_tag user_tasks_path(@login_user), class: 'navbar-form', method: :get do %>
+              <%= text_field_tag('name', @name, class: 'form-control', placeholder: 'Search task' ) %>
+            <% end %>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to @login_user.email, :users %></li>
+          <li><%= link_to 'Logout', :logout %></li>
+        </ul>
+      <% elsif @login_user.blank? %>
+        <ul class="nav navbar-nav">
+          <li><%= link_to 'About', :about %></li>
+        </ul>
+      <% end %> 
+    </div>
+  </div>
 </div>
+

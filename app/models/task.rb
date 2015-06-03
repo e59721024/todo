@@ -6,9 +6,8 @@ class Task < ActiveRecord::Base
   validates :deadline, presence: true
   validates :priority, inclusion: { in: 1..3 }
   scope :near_deadline, lambda{ where('deadline < ?', 1.days.since) }
-  scope :high, lambda{ where(priority: 2) }
+  scope :high, lambda{ where(priority: 3) }
   scope :by_name, lambda{|name|
     where(:name => name) if name.present?}
-  scope :like_name, lambda{ |name|
-    where("name like ?", "%#{name}%") if name.present? }
+  scope :like_name, lambda{ |name| where("name like ?", "%#{name}%") if name.present? }
 end

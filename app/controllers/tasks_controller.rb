@@ -4,10 +4,8 @@ class TasksController < ApplicationController
   before_action :find_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    # @name = params[:name]
-    # @task = @user.tasks.like_name(@name).all
-    @tasks = @user.tasks
-    binding.pry
+    @name = params[:name]
+    @tasks = @user.tasks.like_name(@name).all
     unless params[:tag].blank?
       @tasks = @tasks.includes(:tags).where(tags: { name: params[:tag] })
     end
@@ -22,7 +20,7 @@ class TasksController < ApplicationController
 
   def show
   end
-  
+
   def create
     @task = @user.tasks.new(task_params)
 
@@ -51,21 +49,16 @@ class TasksController < ApplicationController
   end
 
   def download
-    # @tasks = @user.tasks
-    # csvs = CSV.generate do |csv|
-    #   @tasks.each do |task|
-    #     csv << [task.name, task.deadline.strftime("%Y-%m-%d %H:%M:%S"), task.priority]
-    #   end
-    # end
-    # send_data csvs, :type => 'text/csv', :filename => 'tasks.csv'
+    @tasks = @user.tasks
+    csvs = CSV.generate do |csv|
+      @tasks.each do |task|
+        csv << [task.name, task.deadline.strftime("%Y-%m-%d %H:%M:%S"), task.priority]
+      end
+    end
+    send_data csvs, :type => 'text/csv', :filename => 'tasks.csv'
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  # def set_task
-    # @task = @user.tasks.find(params[:id])
-  # end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def task_params
@@ -73,7 +66,6 @@ class TasksController < ApplicationController
   end
 
   def retrieve_user
-    # binding.pry
     unless @user = User.where(id: params[:user_id]).first and
            (@login_user.adm? or @login_user.id == @user.id)
       redirect_to user_path(@login_user)
