@@ -7,19 +7,20 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 User.delete_all
 Task.delete_all
-user = User.create(
-  name: 'a',
-  birthday: 20.years.ago,
-  email: 'a',
-  password: 'a',
-  adm: true)
-Task.create(:user => user, :name => 'study', :deadline => 1.days.since, :priority => 1)
-Task.create(:user => user, :name => 'reading', :deadline => 2.days.since, :priority => 2)
-
 User.create! do |u|
-  u.name = 'b'
-  u.email = 'b'
-  u.password = 'b'
+  u.name = 'alex'
+  u.email = 'alex@mail.com'
+  u.password = 'alex'
   u.birthday = '1999-12-31'
   u.adm = true
 end
+
+user = User.create(
+  name: 'ben',
+  birthday: 20.years.ago,
+  email: 'ben@mail.com',
+  password: 'ben',
+  adm: false)
+Task.create(:user => user, :name => 'study', :deadline => 1.days.since, :priority => 1)
+Task.create(:user => user, :name => 'reading', :deadline => 2.days.since, :priority => 2)
+
